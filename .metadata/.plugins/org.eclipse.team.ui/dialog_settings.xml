@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="SynchronizeViewSettings">
+		<item key="linkWithEditor" value="true"/>
+		<item key="lastactiveparticipant_id" value="org.eclipse.egit.ui.modelCompareParticipant"/>
+		<item key="lastactiveparticipant_sec_id" value="1748459904501"/>
+		<section name="org.eclipse.egit.ui.modelCompareParticipant.1748459904501">
+			<item key="org.eclipse.team.ui.P_SYNCVIEWPAGE_MODE" value="8"/>
+		</section>
+	</section>
+	<section name="SynchronizeWizard">
+		<section name="GlobalSynchronizeWizard.dialogBounds">
+			<item key="DIALOG_X_ORIGIN" value="1014"/>
+			<item key="DIALOG_Y_ORIGIN" value="473"/>
+			<item key="DIALOG_WIDTH" value="875"/>
+			<item key="DIALOG_HEIGHT" value="469"/>
+			<item key="DIALOG_FONT_NAME" value="1|Segoe UI|9.0|0|WINDOWS|1|-18|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI"/>
+		</section>
+	</section>
+</section>
