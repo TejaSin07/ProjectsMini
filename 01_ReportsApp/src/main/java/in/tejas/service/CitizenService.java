@@ -17,7 +17,7 @@ public interface CitizenService {
 
 	public boolean exportExcel(HttpServletResponse response) throws Exception;
 	
-	public boolean exportdf();
+	public boolean exportdf(HttpServletResponse response) throws Exception;
 	
 		
 }

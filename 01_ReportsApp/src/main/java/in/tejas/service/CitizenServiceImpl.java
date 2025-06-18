@@ -1,6 +1,7 @@
 package in.tejas.service;
 
 import java.io.FileOutputStream;
+import java.lang.reflect.Parameter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -13,6 +14,11 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
+
+import com.lowagie.text.Document;
+import com.lowagie.text.PageSize;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.PdfWriter;
 
 import in.tejas.entity.CitizenPlan;
 import in.tejas.repo.CitizenPlanRepo;
@@ -126,8 +132,14 @@ public class CitizenServiceImpl implements CitizenService {
 	}
 
 	@Override
-	public boolean exportdf() {
+	public boolean exportdf(HttpServletResponse response) throws Exception {
 		// TODO Auto-generated method stub
+		Document document = new Document(PageSize.A4);
+		PdfWriter.getInstance(document,response.getOutputStream());
+		document.open();
+		Paragraph p = new Paragraph("citizen plans info");
+		document.add(p);
+		document.close();
 		return false;
 	}
 

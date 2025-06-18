@@ -61,12 +61,12 @@ public class RestController {
 		service.exportExcel(response);
 	}
 	
-	
-	
-	
-	
-	
-	
+	@GetMapping("/pdf")
+	public void pdfExport(HttpServletResponse response) throws Exception {
+		response.setContentType("application/pdf");
+		response.addHeader("Content-Disposition","attachment;filename=plans.pdf");
+		service.exportdf(response);
+	}
 	
 	
 	
