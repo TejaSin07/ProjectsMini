@@ -2,6 +2,7 @@ package in.tejas.controller;
 
 import java.util.List;
 
+import org.apache.catalina.filters.ExpiresFilter.XHttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import in.tejas.entity.CitizenPlan;
 import in.tejas.request.SearchRequest;
 import in.tejas.service.CitizenService;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 public class RestController {
@@ -49,7 +51,24 @@ public class RestController {
 		List<CitizenPlan> plans = service.search(request);
 		model.addAttribute("plans",plans);
 		init(model);
-		return "index";
-		
+		return "index";	
 	}
+	
+	@GetMapping("/excel")
+	public void excelExport(HttpServletResponse response) throws Exception {
+		response.setContentType("application/octet-stream");
+		response.addHeader("Content-Disposition","attachment;filename=plans.xls");
+		service.exportExcel(response);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

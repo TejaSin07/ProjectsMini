@@ -4,6 +4,7 @@ import java.util.List;
 
 import in.tejas.entity.CitizenPlan;
 import in.tejas.request.SearchRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 public interface CitizenService {
 	
@@ -14,7 +15,7 @@ public interface CitizenService {
 	
 	public List<CitizenPlan> search(SearchRequest request);
 
-	public boolean exportExcel();
+	public boolean exportExcel(HttpServletResponse response) throws Exception;
 	
 	public boolean exportdf();
 	

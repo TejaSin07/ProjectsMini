@@ -1,9 +1,14 @@
 package in.tejas.service;
 
+import java.io.FileOutputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -12,6 +17,8 @@ import org.springframework.stereotype.Service;
 import in.tejas.entity.CitizenPlan;
 import in.tejas.repo.CitizenPlanRepo;
 import in.tejas.request.SearchRequest;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Service
 public class CitizenServiceImpl implements CitizenService {
@@ -63,9 +70,45 @@ public class CitizenServiceImpl implements CitizenService {
 	}
 
 	@Override
-	public boolean exportExcel() {
+	public boolean exportExcel(HttpServletResponse response) throws Exception {
 		// TODO Auto-generated method stub
-		return false;
+		
+		Workbook workbook = new HSSFWorkbook();
+		Sheet sheet = workbook.createSheet("plans-data");
+		Row row = sheet.createRow(0);
+		row.createCell(0).setCellValue("ID");
+		row.createCell(1).setCellValue("Citizen Name");
+		row.createCell(2).setCellValue("Plan Name");
+		row.createCell(3).setCellValue("Plan Status");
+		row.createCell(4).setCellValue("Plan Start Date");
+		row.createCell(5).setCellValue("Plan End Date");
+		row.createCell(6).setCellValue("Benefit Amt");
+		
+		List<CitizenPlan> records = planRepo.findAll();
+		
+		int dataRowIndex = 1;
+		
+		for(CitizenPlan plan : records) {
+			Row dataRow = sheet.createRow( dataRowIndex );
+			dataRow.createCell(0).setCellValue(plan.getCitizenid());
+			dataRow.createCell(1).setCellValue(plan.getCitizename());
+			dataRow.createCell(2).setCellValue(plan.getPlanName());
+			dataRow.createCell(3).setCellValue(plan.getPlanStatus());
+			dataRow.createCell(4).setCellValue(plan.getPlanStartDate());
+			dataRow.createCell(5).setCellValue(plan.getPlanEndDate());
+			if(null != plan.getBenefitAmt()) {
+				dataRow.createCell(6).setCellValue(plan.getBenefitAmt());
+			}
+			else {
+				dataRow.createCell(6).setCellValue("N/A");
+			}
+			dataRowIndex++;
+		}
+	
+		ServletOutputStream outputStream = response.getOutputStream();
+		workbook.write(outputStream);
+		workbook.close();
+		return true;
 	}
 
 	@Override
