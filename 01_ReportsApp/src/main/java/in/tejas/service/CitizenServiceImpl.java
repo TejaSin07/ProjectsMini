@@ -26,6 +26,7 @@ import com.lowagie.text.pdf.PdfWriter;
 import in.tejas.entity.CitizenPlan;
 import in.tejas.repo.CitizenPlanRepo;
 import in.tejas.request.SearchRequest;
+import in.tejas.utils.EmailUtils;
 import in.tejas.utils.ExcelGenerator;
 import in.tejas.utils.PdfGenerator;
 import jakarta.servlet.ServletOutputStream;
@@ -43,7 +44,8 @@ public class CitizenServiceImpl implements CitizenService {
 	@Autowired
 	private PdfGenerator pdfGenerator;
 	
-	
+	@Autowired
+	private EmailUtils emailUtils;
 	
 	@Override
 	public List<String> getPlanName() {
@@ -94,8 +96,11 @@ public class CitizenServiceImpl implements CitizenService {
 		
 		List<CitizenPlan> plans = planRepo.findAll();
 		excelGenerator.generate(response, plans);
-		return true;
-		
+		String Subject ="Test mail subject";
+		String Body = "<h1>Test Mail Body</h1>";
+		String to = "tejassinkar24@gmail.com";
+		emailUtils.sendEmail(Subject, Body, to);
+		return true;	
 	}
 
 	@Override
@@ -103,8 +108,7 @@ public class CitizenServiceImpl implements CitizenService {
 		// TODO Auto-generated method stub
 		List<CitizenPlan> plans = planRepo.findAll();
 		pdfGenerator.generate(response);
-		return true;
-		
+		return true;	
 	}
 
 }
