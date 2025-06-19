@@ -16,6 +16,8 @@ import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import com.lowagie.text.Document;
+import com.lowagie.text.Font;
+import com.lowagie.text.FontFactory;
 import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.PdfPTable;
@@ -138,8 +140,17 @@ public class CitizenServiceImpl implements CitizenService {
 		Document document = new Document(PageSize.A4);
 		PdfWriter.getInstance(document,response.getOutputStream());
 		document.open();
-		Paragraph p = new Paragraph("citizen plans info");
-		document.add(p);
+		// Creating font
+	    // Setting font style and size
+		Font fontTiltle = FontFactory.getFont(FontFactory.TIMES_ROMAN);
+		fontTiltle.setSize(20);
+		// Creating paragraph
+		Paragraph paragraph = new Paragraph("Citizen Plans", fontTiltle);
+		// Aligning the paragraph in document
+		paragraph.setAlignment(Paragraph.ALIGN_CENTER);
+		// Adding the created paragraph in document
+		document.add(paragraph);
+		
 		
 		PdfPTable table = new PdfPTable(6);
 		table.addCell("Id");
