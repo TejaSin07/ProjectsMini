@@ -1,0 +1,12 @@
+package in.tejas.utils;
+
+import in.tejas.repo.CitizenPlanRepo;
+import jakarta.servlet.http.HttpServletResponse;
+
+public class ExcelGenerator {
+	
+	private CitizenPlanRepo planRepo;
+	public void generate(HttpServletResponse reponse) {
+		
+	}
+}

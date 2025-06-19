@@ -26,6 +26,8 @@ import com.lowagie.text.pdf.PdfWriter;
 import in.tejas.entity.CitizenPlan;
 import in.tejas.repo.CitizenPlanRepo;
 import in.tejas.request.SearchRequest;
+import in.tejas.utils.ExcelGenerator;
+import in.tejas.utils.PdfGenerator;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -34,6 +36,14 @@ public class CitizenServiceImpl implements CitizenService {
 
 	@Autowired
 	private CitizenPlanRepo planRepo;
+	
+	@Autowired
+	private ExcelGenerator excelGenerator;
+	
+	@Autowired
+	private PdfGenerator pdfGenerator;
+	
+	
 	
 	@Override
 	public List<String> getPlanName() {
@@ -82,100 +92,19 @@ public class CitizenServiceImpl implements CitizenService {
 	public boolean exportExcel(HttpServletResponse response) throws Exception {
 		// TODO Auto-generated method stub
 		
-		Workbook workbook = new HSSFWorkbook();
-		Sheet sheet = workbook.createSheet("plans-data");
-		Row row = sheet.createRow(0);
-		row.createCell(0).setCellValue("ID");
-		row.createCell(1).setCellValue("Citizen Name");
-		row.createCell(2).setCellValue("Plan Name");
-		row.createCell(3).setCellValue("Plan Status");
-		row.createCell(4).setCellValue("Plan Start Date");
-		row.createCell(5).setCellValue("Plan End Date");
-		row.createCell(6).setCellValue("Benefit Amt");
-		
-		List<CitizenPlan> records = planRepo.findAll();
-		
-		int dataRowIndex = 1;
-		
-		for(CitizenPlan plan : records) {
-			Row dataRow = sheet.createRow( dataRowIndex );
-			dataRow.createCell(0).setCellValue(plan.getCitizenid());
-			dataRow.createCell(1).setCellValue(plan.getCitizename());
-			dataRow.createCell(2).setCellValue(plan.getPlanName());
-			dataRow.createCell(3).setCellValue(plan.getPlanStatus());
-//			dataRow.createCell(4).setCellValue(plan.getPlanStartDate()+"");//date is not converting properly in excel so concatenate with string 
-//			dataRow.createCell(5).setCellValue(plan.getPlanEndDate()+"");
-			
-			if(null != plan.getPlanStartDate()) {
-				dataRow.createCell(4).setCellValue(plan.getPlanStartDate()+"");//date is not converting properly in excel so concatenate with string 
-				
-			}
-			else {
-				dataRow.createCell(4).setCellValue("N/A");
-			}
-			if(null != plan.getPlanEndDate()) {
-				dataRow.createCell(5).setCellValue(plan.getPlanEndDate()+"");
-			}
-			else {
-				dataRow.createCell(5).setCellValue("N/A");
-			}
-			if(null != plan.getBenefitAmt()) {
-				dataRow.createCell(6).setCellValue(plan.getBenefitAmt());
-			}
-			else {
-				dataRow.createCell(6).setCellValue("N/A");
-			}
-			dataRowIndex++;
-		}
-	
-		ServletOutputStream outputStream = response.getOutputStream();
-		workbook.write(outputStream);
-		workbook.close();
+		List<CitizenPlan> plans = planRepo.findAll();
+		excelGenerator.generate(response, plans);
 		return true;
+		
 	}
 
 	@Override
 	public boolean exportdf(HttpServletResponse response) throws Exception {
 		// TODO Auto-generated method stub
-		Document document = new Document(PageSize.A4);
-		PdfWriter.getInstance(document,response.getOutputStream());
-		document.open();
-		// Creating font
-		// Setting font style and size
-		Font fontTiltle = FontFactory.getFont(FontFactory.TIMES_ROMAN);
-		fontTiltle.setSize(20);
-		// Creating paragraph
-		Paragraph paragraph = new Paragraph("Citizens Plan", fontTiltle);
-		// Aligning the paragraph in document
-		paragraph.setAlignment(Paragraph.ALIGN_CENTER);
-		// Adding the created paragraph in document
-		document.add(paragraph);
-		Paragraph p = new Paragraph(" ");
-		document.add(p);
-		
-		PdfPTable table = new PdfPTable(6);
-		table.addCell("Id");
-		table.addCell("Citizen Name");
-		table.addCell("Plan Name");
-		table.addCell("Plan Status");
-		table.addCell("Start Date");
-		table.addCell("End Date");
-		
-		
 		List<CitizenPlan> plans = planRepo.findAll();
+		pdfGenerator.generate(response);
+		return true;
 		
-		for(CitizenPlan plan : plans) {
-			table.addCell(String.valueOf(plan.getCitizenid()));
-			table.addCell(plan.getCitizename());
-			table.addCell(plan.getPlanName());
-			table.addCell(plan.getPlanStatus());
-			table.addCell(plan.getPlanStartDate()+"");
-			table.addCell(plan.getPlanEndDate()+"");
-	}
-		
-		document.add(table);
-		document.close();
-		return false;
 	}
 
 }
