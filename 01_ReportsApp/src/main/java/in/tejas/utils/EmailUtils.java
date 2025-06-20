@@ -1,5 +1,7 @@
 package in.tejas.utils;
 
+import java.io.File;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -13,15 +15,15 @@ public class EmailUtils {
 	@Autowired
 	private JavaMailSender mailSender;
 	
-	public boolean sendEmail(String Subject,String Body,String to) {
+	public boolean sendEmail(String Subject,String Body,String to,File f) {
 		
 		try {
 			MimeMessage mimemsg = mailSender.createMimeMessage();
-			MimeMessageHelper helper = new MimeMessageHelper(mimemsg);
+			MimeMessageHelper helper = new MimeMessageHelper(mimemsg,true);
 			helper.setSubject(Subject);
 			helper.setText(Body, true);
 			helper.setTo("tejassinkar24@gmail.com");
-//			helper.addAttachment(to, null);
+			helper.addAttachment("Plans-Info",f);
 			mailSender.send(mimemsg);
 			
 		}catch (Exception e) {

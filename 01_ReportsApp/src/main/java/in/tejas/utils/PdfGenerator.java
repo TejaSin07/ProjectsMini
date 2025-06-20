@@ -1,5 +1,7 @@
 package in.tejas.utils;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +26,10 @@ public class PdfGenerator {
 		@Autowired
 		private CitizenPlanRepo planRepo;
 		
-		public void generate(HttpServletResponse response) throws Exception{
+		public void generate(HttpServletResponse response,List<CitizenPlan>plans,File f) throws Exception{
 			Document document = new Document(PageSize.A4);
-			PdfWriter.getInstance(document,response.getOutputStream());
+			PdfWriter pdfwriter = PdfWriter.getInstance(document,response.getOutputStream());
+			PdfWriter.getInstance(document,new FileOutputStream(f));
 			document.open();
 			// Creating font
 			// Setting font style and size
@@ -50,7 +53,7 @@ public class PdfGenerator {
 			table.addCell("End Date");
 			
 			
-			List<CitizenPlan> plans = planRepo.findAll();
+			
 			
 			for(CitizenPlan plan : plans) {
 				table.addCell(String.valueOf(plan.getCitizenid()));

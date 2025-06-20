@@ -1,5 +1,7 @@
 package in.tejas.utils;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.List;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -17,7 +19,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class ExcelGenerator {
 	
 	private CitizenPlanRepo planRepo;
-	public void generate(HttpServletResponse response,List<CitizenPlan> records) throws Exception {
+	public void generate(HttpServletResponse response,List<CitizenPlan> records,File file) throws Exception {
 		Workbook workbook = new HSSFWorkbook();
 		Sheet sheet = workbook.createSheet("plans-data");
 		Row row = sheet.createRow(0);
@@ -62,6 +64,10 @@ public class ExcelGenerator {
 			dataRowIndex++;
 		}
 	
+		FileOutputStream fos = new FileOutputStream(file);
+		workbook.write(fos);
+		fos.close();
+		
 		ServletOutputStream outputStream = response.getOutputStream();
 		workbook.write(outputStream);
 		workbook.close();

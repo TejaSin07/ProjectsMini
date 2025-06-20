@@ -1,5 +1,6 @@
 package in.tejas.service;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.lang.reflect.Parameter;
 import java.time.LocalDate;
@@ -93,21 +94,34 @@ public class CitizenServiceImpl implements CitizenService {
 	@Override
 	public boolean exportExcel(HttpServletResponse response) throws Exception {
 		// TODO Auto-generated method stub
+		File f = new File("plans.xls");
 		
 		List<CitizenPlan> plans = planRepo.findAll();
-		excelGenerator.generate(response, plans);
+		excelGenerator.generate(response, plans,f);
 		String Subject ="Test mail subject";
 		String Body = "<h1>Test Mail Body</h1>";
 		String to = "tejassinkar24@gmail.com";
-		emailUtils.sendEmail(Subject, Body, to);
+		
+		emailUtils.sendEmail(Subject, Body, to,f);
+		
+		f.delete();
 		return true;	
 	}
 
 	@Override
 	public boolean exportdf(HttpServletResponse response) throws Exception {
 		// TODO Auto-generated method stub
+		File f = new File("Plans.pdf");
 		List<CitizenPlan> plans = planRepo.findAll();
-		pdfGenerator.generate(response);
+		
+		pdfGenerator.generate(response,plans,f);
+		String Subject ="Test mail subject";
+		String Body = "<h1>Test Mail Body</h1>";
+		String to = "tejassinkar24@gmail.com";
+		
+		emailUtils.sendEmail(Subject, Body, to,f);
+		
+		f.delete();
 		return true;	
 	}
 
