@@ -94,7 +94,9 @@
 		</tbody>
 	</table>
 	
-Export  :<a href= "excel"> Excel</a> <a href="pdf">Pdf</a>
+	<p class="text-success">${msg}</p>
+
+				Export  :<a href= "excel"> Excel</a> <a href="pdf">Pdf</a>
 
 </div>
 
