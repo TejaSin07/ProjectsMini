@@ -71,6 +71,7 @@ public class CitizenServiceImpl implements CitizenService {
 		if(null != request.getPlanName() && !"".equals(request.getPlanName())) {
 			entity.setPlanName(request.getPlanName());
 		}
+//		 If you skip the null check, it can cause a NullPointerException. as request.get will have null value
 		
 		if(null != request.getPlanStatus() && !"".equals(request.getPlanStatus())) {
 			entity.setPlanStatus(request.getPlanStatus());
@@ -84,29 +85,27 @@ public class CitizenServiceImpl implements CitizenService {
 			String startDate = request.getStartDate();
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 			LocalDate localDate =  LocalDate.parse(startDate,formatter);
-			entity.setPlanStartDate(localDate);
-			
+			entity.setPlanStartDate(localDate);	
 		}
 		
 		return planRepo.findAll(Example.of(entity));
 	}
 
 	@Override
-	public boolean exportExcel(HttpServletResponse response) throws Exception {
-		// TODO Auto-generated method stub
-		File f = new File("plans.xls");
-		
-		List<CitizenPlan> plans = planRepo.findAll();
-		excelGenerator.generate(response, plans,f);
-		String Subject ="Test mail subject";
-		String Body = "<h1>Test Mail Body</h1>";
-		String to = "tejassinkar24@gmail.com";
-		
-		emailUtils.sendEmail(Subject, Body, to,f);
-		
-		f.delete();
-		return true;	
+	public boolean exportExcel(HttpServletResponse response, SearchRequest request) throws Exception {
+	    File f = new File("plans.xls");
+
+	    List<CitizenPlan> filteredPlans = search(request); // ✅ Use existing search logic
+
+	    excelGenerator.generate(response, filteredPlans, f); // Pass only filtered data
+
+	    // Optional: send email or log it
+	    emailUtils.sendEmail("Filtered Data", "<h1>Filtered Excel</h1>", "tejassinkar24@gmail.com", f);
+	    f.delete();
+
+	    return true;
 	}
+
 
 	@Override
 	public boolean exportdf(HttpServletResponse response) throws Exception {

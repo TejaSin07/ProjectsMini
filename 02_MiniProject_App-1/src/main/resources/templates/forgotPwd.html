@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ashok IT - Recover Password</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+
+    .recover-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .recover-box {
+      background-color: white;
+      display: flex;
+      width: 800px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .recover-left {
+      width: 50%;
+      padding: 40px;
+    }
+
+    .recover-right {
+      width: 50%;
+      background: linear-gradient(to right, #ff512f, #dd2476);
+      color: white;
+      padding: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .btn-submit {
+      background: linear-gradient(to right, #ff512f, #dd2476);
+      color: white;
+      border: none;
+    }
+
+    .btn-submit:hover {
+      opacity: 0.9;
+    }
+
+    .create-btn {
+      border: 1px solid #dd2476;
+      color: #dd2476;
+    }
+
+    .create-btn:hover {
+      background-color: #dd2476;
+      color: white;
+    }
+
+    .logo-text {
+      font-weight: bold;
+      color: #ff512f;
+      font-size: 24px;
+    }
+
+    .navbar-brand small {
+      font-size: 12px;
+      display: block;
+      margin-top: -5px;
+    }
+
+    .btn-login-top {
+      background-color: #ff4d4d;
+      color: white;
+      border: none;
+      padding: 6px 16px;
+      border-radius: 4px;
+    }
+
+    .btn-login-top:hover {
+      background-color: #e84141;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-light bg-light px-5">
+    <a class="navbar-brand d-flex align-items-center" href="#">
+      <img src="images/Logo_1.jpeg" width="300" height="70" class="d-inline-block align-top me-2" alt="Logo" />
+      <div>
+        <small class="text-muted">Learn Here.. Lead Anywhere..!!</small>
+      </div>
+    </a>
+    <div>
+      <a href="#" class="me-4 text-decoration-none text-primary">Home</a>
+      <a href="#" class="me-4 text-decoration-none text-primary">Services</a>
+      <a href="#" class="me-4 text-decoration-none text-primary">Courses</a>
+      <a href="#" class="me-4 text-decoration-none text-primary">Contact us</a>
+      <a href="login" class="btn btn-login-top">LOGIN</a>
+    </div>
+  </nav>
+
+  <!-- Recover Password Box -->
+  <div class="recover-container">
+    <div class="recover-box">
+      <!-- Left Side -->
+      <div class="recover-left">
+        <div class="text-center mb-4">
+          <img src="images/Logo_1.jpeg" width="50" alt="Ashok IT Logo" />
+          <div class="logo-text">ASHOK IT</div>
+        </div>
+        <h5 class="mb-3">Recover Your Password</h5>
+        <form>
+          <div class="form-group mb-3">
+            <input type="email" class="form-control" placeholder="Email" />
+          </div>
+          <button type="submit" class="btn btn-submit w-100 mb-2">SUBMIT</button>
+          <div class="text-center mt-3">
+            <span>Don’t have an account?</span>
+            <a href="signup" class="btn create-btn ms-2">CREATE NEW</a>
+          </div>
+        </form>
+      </div>
+
+      <!-- Right Side -->
+      <div class="recover-right">
+        <h4>Ashok IT is more than just a <br> Software Training Institute</h4>
+        <p class="mt-3">Student Satisfaction is at most important for us.</p>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

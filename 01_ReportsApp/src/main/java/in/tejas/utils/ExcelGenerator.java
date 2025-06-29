@@ -1,6 +1,7 @@
 package in.tejas.utils;
 
 import java.io.File;
+
 import java.io.FileOutputStream;
 import java.util.List;
 
@@ -11,14 +12,13 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.stereotype.Component;
 
 import in.tejas.entity.CitizenPlan;
-import in.tejas.repo.CitizenPlanRepo;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Component
 public class ExcelGenerator {
 	
-	private CitizenPlanRepo planRepo;
+	
 	public void generate(HttpServletResponse response,List<CitizenPlan> records,File file) throws Exception {
 		Workbook workbook = new HSSFWorkbook();
 		Sheet sheet = workbook.createSheet("plans-data");

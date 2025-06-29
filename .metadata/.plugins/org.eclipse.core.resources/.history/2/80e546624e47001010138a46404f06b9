@@ -1,9 +1,0 @@
-package in.tejas.repo;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import in.tejas.entity.CitizenPlan;
-
-public interface CitizenPlanRepo  extends JpaRepository<CitizenPlan, Integer>{
-	
-}

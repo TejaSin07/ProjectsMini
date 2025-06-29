@@ -1,5 +1,0 @@
-package in.tejas.repo;
-
-public interface CitizenPlanRepo {
-
-}

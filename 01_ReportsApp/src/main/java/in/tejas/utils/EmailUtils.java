@@ -1,7 +1,6 @@
 package in.tejas.utils;
 
 import java.io.File;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -22,7 +21,7 @@ public class EmailUtils {
 			MimeMessageHelper helper = new MimeMessageHelper(mimemsg,true);
 			helper.setSubject(Subject);
 			helper.setText(Body, true);
-			helper.setTo("tejassinkar24@gmail.com");
+			helper.setTo(to);
 			helper.addAttachment("Plans-Info",f);
 			mailSender.send(mimemsg);
 			

@@ -54,12 +54,14 @@ public class RestController {
 		return "index";	
 	}
 	
-	@GetMapping("/excel")
-	public void excelExport(HttpServletResponse response) throws Exception {
-		response.setContentType("application/octet-stream");
-		response.addHeader("Content-Disposition","attachment;filename=plans.xls");
-		service.exportExcel(response);
+	@PostMapping("/excel")
+	public void excelExportFiltered(@ModelAttribute("search") SearchRequest request,
+	                                HttpServletResponse response) throws Exception {
+	    response.setContentType("application/octet-stream");
+	    response.addHeader("Content-Disposition", "attachment;filename=plans.xls");
+	    service.exportExcel(response, request);
 	}
+
 	
 	@GetMapping("/pdf")
 	public void pdfExport(HttpServletResponse response) throws Exception {
