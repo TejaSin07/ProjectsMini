@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
 		StringBuffer body = new StringBuffer();
 		body.append("<h1>Use below temporary password to unlock your account</h1>");
 		body.append("Temporary pwd:" + tempPwd);
-		body.append("<a href=\"http://localhost:8080/unlock?email = "+to+"\">Click here to unlock your account</a>");
+		body.append("<a href=\"http://localhost:8080/unlock?email=" + to + "\">Click here to unlock your account</a>");
 		emailUtils.sendEmail(to,subject,body.toString());
 		
 		return true;
@@ -61,7 +61,15 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean unlockAccount(UnlockForm form) {
 		// TODO Auto-generated method stub
-		return false;
+		UserDtlsEntity entity = userDtlsRepo.findByEmail(form.getEmail());
+		if(entity.getPwd().equals(form.getTempPwd())){
+			entity.setPwd(form.getNewPwd());
+			entity.setAccStatus("Unlocked");
+			userDtlsRepo.save(entity);
+			return true;
+		}else {
+			return false;
+		}
 	}
 
 	@Override
