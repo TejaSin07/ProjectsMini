@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import in.tejas.binding.LoginForm;
 import in.tejas.binding.SignUpForm;
 import in.tejas.binding.UnlockForm;
 import in.tejas.service.UserService;
@@ -29,10 +30,7 @@ public class UserController {
 		return "signup";
 	}
 	
-	@GetMapping("/login")
-	public String loginPage() {
-		return "login";
-	}
+
 	
 	@GetMapping("/signup")
 	public String signUpPage(Model model) {
@@ -65,8 +63,32 @@ public class UserController {
 		}
 		
 		return "unlock";
-	
 	}
+	
+	@GetMapping("/login")
+	public String loginPage(Model model) {
+		model.addAttribute("loginForm",new LoginForm());
+		return "login";
+		
+	}
+	@PostMapping("/login")
+	public String login(@ModelAttribute("loginForm") LoginForm form,Model model) {
+		String status = userService.login(form);
+		if(status.contains("success")) {
+			//redirect to dashboard 
+//			return "redirect:/dashboard";
+			
+			return "redirect:/dashboard";
+		}
+		
+		model.addAttribute("errMsg",status);
+
+		return "login";
+		
+	}
+	
+	
+	
 	@GetMapping("/forgot")
 	public String forgotPwdPage() {
 		return "forgotPwd";

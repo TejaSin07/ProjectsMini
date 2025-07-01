@@ -20,11 +20,6 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	private EmailsUtils emailUtils;
-	@Override
-	public String login(LoginForm form) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public boolean signUp(SignUpForm form) {
@@ -70,6 +65,19 @@ public class UserServiceImpl implements UserService {
 		}else {
 			return false;
 		}
+	}
+
+	@Override
+	public String login(LoginForm form) {
+		// TODO Auto-generated method stub
+		UserDtlsEntity entity = userDtlsRepo.findByEmailAndPwd(form.getEmail(),form.getPwd());
+		if(entity == null) {
+			return "Invalid Credentials";
+		}
+		if(entity.getAccStatus().equals("LOCKED")) {
+			return "YOUR ACCOUNT IS LOCKED";
+		}
+		return "success";
 	}
 
 	@Override

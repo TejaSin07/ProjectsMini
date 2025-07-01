@@ -8,6 +8,8 @@ public class EnquiryController {
 	
 	@GetMapping("/dashboard")
 	public String dashboardPage() {
+		//logic to fetch data for dashboard
+		System.out.println("dashboard method called");
 		return "dashboard";
 	}
 	
