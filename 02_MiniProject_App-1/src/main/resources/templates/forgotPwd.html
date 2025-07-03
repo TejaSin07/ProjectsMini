@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="www.thymeleaf.org">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -112,15 +112,17 @@
       <!-- Left Side -->
       <div class="recover-left">
         <div class="text-center mb-4">
-          <img src="images/Logo_1.jpeg" width="50" alt="Ashok IT Logo" />
+          
           <div class="logo-text">ASHOK IT</div>
         </div>
         <h5 class="mb-3">Recover Your Password</h5>
-        <form>
+        <p th:text="${succMsg}" class="text-sucess"/>
+        <p th:text="${errMsg}" class="text-danger"/>
+        <form th:action="@{/forgotPwd}" method ="Post">
           <div class="form-group mb-3">
-            <input type="email" class="form-control" placeholder="Email" />
+            <input type="email" class="form-control" placeholder="Email" name="email"/>
           </div>
-          <button type="submit" class="btn btn-submit w-100 mb-2">SUBMIT</button>
+          <input type="submit" value= "submit" class="btn btn-submit w-100 mb-2"></button>
           <div class="text-center mt-3">
             <span>Don’t have an account?</span>
             <a href="signup" class="btn create-btn ms-2">CREATE NEW</a>
