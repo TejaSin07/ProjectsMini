@@ -2,6 +2,7 @@ package in.tejas.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -33,5 +34,6 @@ public class UserDtlsEntity {
 	private String  accStatus;
 	
 	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	@JsonIgnore
 	private List<StudentEnqEntity>enquiries;
 }

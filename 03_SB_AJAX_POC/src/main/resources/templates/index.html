@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>  <!-- ✅ Use this only -->
+
+
+	<script >
+		
+		$(document).ready(function() {
+		
+			$("#countryName").on("change",function(e) {
+				$.ajax({
+					type: "GET",
+					url:"/cmsg",
+					data:{ 
+						countryName: $("#countryName").val()
+					},
+					success : function(data){
+						$("#dropDownDiv").html(data);
+					}
+					
+				
+				});
+			});
+			
+			$("#submitBtn").click(function(e) {
+				var name = $("#name").val();
+				$.ajax({
+					 type: "GET",
+				      url: "/msg",
+				      data: {
+				        name : $("#userName").val(),
+				      },
+				      success: function(result) {
+				        $("#msgDiv").html(result)
+				      },
+				      error: function(result) {
+				        alert('error');
+				      }
+				});
+			});
+		});
+	</script>
+<body>
+
+
+		Enter Name:<input type = "text" name = "name" id="userName"/>
+		<input type = "button" value = "submit" id="submitBtn"/>
+	
+	<div id ="msgDiv"></div>
+	<hr/>
+	
+	<select id = "countryName">
+		<option>-select- </option>
+		<option>India </option>
+		<option>USA</option>
+		<option>China</option>
+		<option>Canada</option>
+	</select>
+	<div id = "dropDownDiv"></div>
+	
+</body>
+</html>

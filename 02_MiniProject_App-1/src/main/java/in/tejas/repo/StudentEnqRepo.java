@@ -1,5 +1,9 @@
 package in.tejas.repo;
 
-public interface StudentEnqRepo {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import in.tejas.entity.StudentEnqEntity;
+
+public interface StudentEnqRepo extends JpaRepository<StudentEnqEntity, Integer>{
 
 }

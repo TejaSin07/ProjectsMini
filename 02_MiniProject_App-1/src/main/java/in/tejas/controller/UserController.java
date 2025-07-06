@@ -75,6 +75,8 @@ public class UserController {
 	public String login(@ModelAttribute("loginForm") LoginForm form,Model model) {
 		String status = userService.login(form);
 		if(status.contains("success")) {
+			
+			
 			//redirect to dashboard 
 //			return "redirect:/dashboard";
 			

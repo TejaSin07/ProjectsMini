@@ -1,16 +1,21 @@
 package in.tejas.service;
 
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import in.tejas.binding.LoginForm;
 import in.tejas.binding.SignUpForm;
 import in.tejas.binding.UnlockForm;
+import in.tejas.entity.StudentEnqEntity;
 import in.tejas.entity.UserDtlsEntity;
 import in.tejas.repo.UserDtlsRepo;
 import in.tejas.utils.EmailsUtils;
 import in.tejas.utils.PwdUtils;
+import jakarta.servlet.http.HttpSession;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -20,7 +25,8 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	private EmailsUtils emailUtils;
-
+	@Autowired
+	private HttpSession session;
 	@Override
 	public boolean signUp(SignUpForm form) {
 		
@@ -77,6 +83,8 @@ public class UserServiceImpl implements UserService {
 		if(entity.getAccStatus().equals("LOCKED")) {
 			return "YOUR ACCOUNT IS LOCKED";
 		}
+		//create session and store user data in session
+		session.setAttribute("userId", entity.getUserId());
 		return "success";
 	}
 
@@ -96,5 +104,6 @@ public class UserServiceImpl implements UserService {
 		emailUtils.sendEmail(email, subject, body);
 		return true;
 	}
+
 
 }
