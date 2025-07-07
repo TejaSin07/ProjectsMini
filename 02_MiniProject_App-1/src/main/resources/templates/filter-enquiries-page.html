@@ -1,0 +1,28 @@
+<!-- This is a Thymeleaf fragment file. No <html> or <head> or <body> tags. -->
+<div class="container mt-3" id="filtered-table-wrapper" th:fragment="tableContent">
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+        <tr>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Course</th>
+            <th>Mode</th>
+            <th>Status</th>
+            <th>Created</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="enq : ${enquiries}">
+            <td th:text="${enq.studentName}">Name</td>
+            <td th:text="${enq.studentPhno}">Phone</td>
+            <td th:text="${enq.courseName}">Course</td>
+            <td th:text="${enq.classMode}">Mode</td>
+            <td th:text="${enq.enqStatus}">Status</td>
+            <td th:text="${#dates.format(enq.dateCreated, 'dd-MM-yyyy')}">Date</td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(enquiries)}">
+            <td colspan="6" class="text-center text-muted">No enquiries found.</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

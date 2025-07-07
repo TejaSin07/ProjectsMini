@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>View Enquiries</title>
@@ -5,89 +7,83 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
-
 <body>
 <div class="container mt-5">
     <h3 class="text-center mb-4">Student Enquiries</h3>
 
-    <!-- Filter/Search Form (Optional) -->
-    
+    <!-- Filter/Search Form -->
+    <div class="row mb-4">
         <div class="col-md-4">
-    <select id="cname" name="courseName" class="form-select">
-        <option value="">-- Select Course --</option>
-        <option th:each="course : ${courseNames}" th:value="${course}" th:text="${course}"></option>
-    </select>
-</div>
-<div class="col-md-4">
-    <select id="status" name="enqStatus" class="form-select">
-        <option value="">-- Select Status --</option>
-        <option th:each="status : ${enqStatusList}" th:value="${status}" th:text="${status}"></option>
-    </select>
-</div>
-<div class="col-md-4">
-    <select id="mode" name="mode" class="form-select">
-        <option value="">-- Select Mode --</option>
-        <option th:each="mode : ${modeList}" th:value="${mode}" th:text="${mode}"></option>
-    </select>
+            <select id="cname" name="courseName" class="form-select">
+                <option value="">-- Select Course --</option>
+                <option th:each="course : ${courseNames}" th:value="${course}" th:text="${course}"></option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <select id="status" name="enqStatus" class="form-select">
+                <option value="">-- Select Status --</option>
+                <option th:each="status : ${enqStatusList}" th:value="${status}" th:text="${status}"></option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <select id="mode" name="mode" class="form-select">
+                <option value="">-- Select Mode --</option>
+                <option th:each="mode : ${modeList}" th:value="${mode}" th:text="${mode}"></option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Filtered Table Placeholder (this will be updated by AJAX) -->
+    <div id="filterResultTbl">
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+            <tr>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Course</th>
+                <th>Mode</th>
+                <th>Status</th>
+                <th>Created</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="enq : ${enquiries}">
+                <td th:text="${enq.studentName}">Name</td>
+                <td th:text="${enq.studentPhno}">Phone</td>
+                <td th:text="${enq.courseName}">Course</td>
+                <td th:text="${enq.classMode}">Mode</td>
+                <td th:text="${enq.enqStatus}">Status</td>
+                <td th:text="${#dates.format(enq.dateCreated, 'dd-MM-yyyy')}">Date</td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(enquiries)}">
+                <td colspan="6" class="text-center text-muted">No enquiries found.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 
-      
-
-
-    <!-- Enquiry Table -->
-    <table class="table table-bordered table-striped">
-        <thead class="table-dark">
-        <tr>
-            <th>Name</th>
-            <th>Phone</th>
-            <th>Course</th>
-            <th>Mode</th>
-            <th>Status</th>
-            <th>Created</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="enq : ${enquiries}">
-            <td th:text="${enq.studentName}">Name</td>
-            <td th:text="${enq.studentPhno}">Phone</td>
-            <td th:text="${enq.courseName}">Course</td>
-            <td th:text="${enq.classMode}">Mode</td>
-            <td th:text="${enq.enqStatus}">Status</td>
-            <td th:text="${#dates.format(enq.dateCreated, 'dd-MM-yyyy')}">Date</td>
-        </tr>
-        <tr th:if="${#lists.isEmpty(enquiries)}">
-            <td colspan="6" class="text-center text-muted">No enquiries found.</td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-</body>
-<body>
-<div class="container mt-5">
-    <!-- your content -->
-</div>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Script to Handle Filter AJAX -->
 <script>
     $(document).ready(function () {
         $(".form-select").on("change", function () {
             $.ajax({
                 type: "GET",
-                url: "/filter-enquiries",
+                url: "/filter-enquiries", // Include leading slash
                 data: {
                     cname: $("#cname").val(),
                     status: $("#status").val(),
                     mode: $("#mode").val()
                 },
-                success: function (response) {
-                    // You can update only the table body if response is HTML fragment
-                    $("body").html(response);
+                success: function (result) {
+                    $("#filterResultTbl").html(result); // ✅ Correct ID used here
+                },
+                error: function () {
+                    alert("Error fetching filtered data.");
                 }
             });
         });
     });
 </script>
-
 </body>
-
 </html>

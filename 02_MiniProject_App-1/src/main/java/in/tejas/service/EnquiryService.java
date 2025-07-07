@@ -17,7 +17,8 @@ public interface EnquiryService {
 	
 	public String upsertEnquiry(EnquiryForm form);
 	
-	List<StudentEnqEntity> getFilteredEnquiries(EnquirySearchFilter filter);
+//	List<StudentEnqEntity> getFilteredEnquiries(EnquirySearchFilter filter);
+	public List<StudentEnqEntity> getFilteredEnquiries(EnquirySearchFilter filter,Integer userId);
 	
 	public EnquiryForm getEnquiry(Integer enqId);
 	

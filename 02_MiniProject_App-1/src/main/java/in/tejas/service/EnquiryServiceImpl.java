@@ -1,7 +1,9 @@
 package in.tejas.service; 
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -78,23 +80,55 @@ public class EnquiryServiceImpl implements EnquiryService{
 		return "fail";
 	}
 	@Override
-	public List<StudentEnqEntity> getFilteredEnquiries(EnquirySearchFilter filter) {
-	    Integer userId = (Integer) session.getAttribute("userId");
-	    Optional<UserDtlsEntity> userOpt = userDtlsRepo.findById(userId);
+	public List<StudentEnqEntity> getFilteredEnquiries(EnquirySearchFilter filter, Integer userId) {
+	    Optional<UserDtlsEntity> findById = userDtlsRepo.findById(userId);
+	    if (findById.isPresent()) {
+	        UserDtlsEntity user = findById.get();
+	        List<StudentEnqEntity> enquiries = user.getEnquiries();
 
-	    if (userOpt.isPresent()) {
-	        List<StudentEnqEntity> enquiries = userOpt.get().getEnquiries();
+	        if (filter.getCourseName() != null && !filter.getCourseName().isEmpty()) {
+	            enquiries = enquiries.stream()
+	                .filter(e -> e.getCourseName().equals(filter.getCourseName()))
+	                .collect(Collectors.toList());
+	        }
 
-	        // In-memory filtering (for simplicity — use JPA Query for efficiency in real projects)
-	        return enquiries.stream()
-	                .filter(e -> filter.getCourseName() == null || filter.getCourseName().isEmpty() || e.getCourseName().equals(filter.getCourseName()))
-	                .filter(e -> filter.getEnqStatus() == null || filter.getEnqStatus().isEmpty() || e.getEnqStatus().equals(filter.getEnqStatus()))
-	                .filter(e -> filter.getClassMode() == null || filter.getClassMode().isEmpty() || e.getClassMode().equals(filter.getClassMode()))
-	                .toList();
+	        if (filter.getEnqStatus() != null && !filter.getEnqStatus().isEmpty()) {
+	            enquiries = enquiries.stream()
+	                .filter(e -> e.getEnqStatus().equals(filter.getEnqStatus()))
+	                .collect(Collectors.toList());
+	        }
+
+	        if (filter.getClassMode() != null && !filter.getClassMode().isEmpty()) {
+	            enquiries = enquiries.stream()
+	                .filter(e -> e.getClassMode().equals(filter.getClassMode()))
+	                .collect(Collectors.toList());
+	        }
+
+	        return enquiries;
 	    }
 
-	    return List.of(); // empty list
+	    return List.of(); // return empty list if user not found
 	}
+
+	
+//	@Override
+//	public List<StudentEnqEntity> getFilteredEnquiries(EnquirySearchFilter filter) {
+//	    Integer userId = (Integer) session.getAttribute("userId");
+//	    Optional<UserDtlsEntity> userOpt = userDtlsRepo.findById(userId);
+//
+//	    if (userOpt.isPresent()) {
+//	        List<StudentEnqEntity> enquiries = userOpt.get().getEnquiries();
+//
+//	        // In-memory filtering (for simplicity — use JPA Query for efficiency in real projects)
+//	        return enquiries.stream()
+//	                .filter(e -> filter.getCourseName() == null || filter.getCourseName().isEmpty() || e.getCourseName().equals(filter.getCourseName()))
+//	                .filter(e -> filter.getEnqStatus() == null || filter.getEnqStatus().isEmpty() || e.getEnqStatus().equals(filter.getEnqStatus()))
+//	                .filter(e -> filter.getClassMode() == null || filter.getClassMode().isEmpty() || e.getClassMode().equals(filter.getClassMode()))
+//	                .toList();
+//	    }
+//
+//	    return List.of(); // empty list
+//	}
 
 
 
