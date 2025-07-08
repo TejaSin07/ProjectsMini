@@ -101,7 +101,7 @@ public class EnquiryController {
 	    criteria.setClassMode(mode);
 	    criteria.setEnqStatus(status);
 
-	    Integer userId = (Integer) session.getAttribute("userId");
+	    Integer userId = (Integer)session.getAttribute("userId");
 
 	    List<StudentEnqEntity> filteredEnq = enqService.getFilteredEnquiries(criteria, userId);
 	    model.addAttribute("enquiries", filteredEnq);
