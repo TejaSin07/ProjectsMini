@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
 		// send email to unlock the account
 		String to = form.getEmail();
 		String subject = "Unlock Your Account |AshokIt";
-		StringBuffer body = new StringBuffer();
+		StringBuilder body = new StringBuilder();
 		body.append("<h1>Use below temporary password to unlock your account</h1>");
 		body.append("Temporary pwd:" + tempPwd);
 		body.append("<a href=\"http://localhost:8080/unlock?email=" + to + "\">Click here to unlock your account</a>");
@@ -104,6 +104,4 @@ public class UserServiceImpl implements UserService {
 		emailUtils.sendEmail(email, subject, body);
 		return true;
 	}
-
-
 }

@@ -1,5 +1,10 @@
 package in.tejas.utils;
 
+
+
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -9,6 +14,8 @@ import jakarta.mail.internet.MimeMessage;
 
 @Component
 public class EmailsUtils {
+	
+	private Logger logger = LoggerFactory.getLogger(EmailsUtils.class);
 	
 	@Autowired
 	private JavaMailSender mailsender;
@@ -27,7 +34,7 @@ public class EmailsUtils {
 			isSent = true;
 		}
 		catch(Exception e) {
-			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 		
 		return isSent;
