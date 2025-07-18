@@ -1,0 +1,11 @@
+server:
+  port: 9090
+
+spring:
+  application:
+    name: xyz
+
+app:
+  messages:
+    welcomeMsg: welcome to jrtp
+    greetMsg: good morning
